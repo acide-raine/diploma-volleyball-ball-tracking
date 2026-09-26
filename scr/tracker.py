@@ -195,7 +195,7 @@ def update_track(track: Track, detection: Detection, confirmed: bool) -> Track:
         track["confirmed"] = True
 
     return track
-def match_detection(all_track: ALLTracks, detections: Detection) -> Dict[int, Detection]:
+def match_detection(all_track: ALLTracks, detections: Detection, max_dist_confirmed, max_dist_unconfirmed) -> Dict[int, Detection]:
 
     '''
 
@@ -214,12 +214,11 @@ def match_detection(all_track: ALLTracks, detections: Detection) -> Dict[int, De
 
     :param all_track: ALLTrack – словарь всех треков. Структуру Track можно посмотреть в */scr/MyTypes.py
            detections: Detection – словарь с данными детекции. Структуру Detection можно посмотреть в */scr/MyTypes.py
+           max_dist_confirmed: float – максимальная дистанция для матчинга подтвержденного трека
+           max_dist_unconfirmed: float – тоже, но для не подтвержденного
 
     :return:Dict[int, Detection] – словарь с лучшим id трека и детекцией
     '''
-
-    max_dist_confirmed = 100.0
-    max_dist_unconfirmed = 30.0
 
     matched = {}
 

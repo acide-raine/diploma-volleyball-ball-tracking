@@ -55,7 +55,7 @@ while cap.isOpened():
 
         #Tracker_part
 
-        matching = tracker.match_detection(all_track, detect)
+        matching = tracker.match_detection(all_track, detect, config.MATCH_CONFIRMED_DIST, config.MATCH_UNCONFIRMED_DIST)
 
         if matching:
             matching_id = list(matching.keys())[-1]

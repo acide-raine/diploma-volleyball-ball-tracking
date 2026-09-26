@@ -12,8 +12,8 @@ SEQ_LEN = 9
 Probability = 0.8
 
 #VIDEO_PARAMS
-INPUT_VIDEO_PATH = "all_video/video_name.mp4"
-OUTPUT_VIDEO_PATH = "all_video/result_traks_and_videos/video_name.mp4"
+INPUT_VIDEO_PATH = "test_input.mp4"
+OUTPUT_VIDEO_PATH = "test_output.mp4"
 
 cap = cv2.VideoCapture(INPUT_VIDEO_PATH)
 
@@ -24,7 +24,11 @@ VIDEO_HEIGHT = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
 #TRACKER_PARAMS
 GAP_WITH_CONFIRMED = 30
 GAP_WITHOUT_CONFIRMED = 5
+
+MATCH_CONFIRMED_DIST = 100
+MATCH_UNCONFIRMED_DIST = 30
+
 LEN_MAX_TRACK = 15
 
 #JSON_PARAMS
-JSON_SAVE_TRACK_PATH = "all_video/result_traks_and_videos/json_name.json"
+JSON_SAVE_TRACK_PATH = "json_name.json"
