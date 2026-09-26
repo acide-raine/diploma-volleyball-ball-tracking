@@ -1,0 +1,80 @@
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+desktop.ini
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# виртуальные окружения
+.venv/
+venv/
+env/
+ENV/
+
+# кэши линтеров и тестов
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+
+# ── Jupyter ───────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ── ML / обучение ─────────────────────────────────────────────────────────────
+# логи и метаданные обучения CatBoost
+catboost_info/
+*.log
+mlruns/
+runs/
+wandb/
+
+# ── Локальные копии и бэкапы файлов ───────────────────────────────────────────
+*копия*.py
+*copy*.py
+*.bak
+*.orig
+*~
+
+# ── Медиа и тяжёлые артефакты (в репозиторий не коммитятся) ───────────────────
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# ── Локальные датасеты, разметка и черновики (в репозиторий не коммитятся) ────
+Stock_video/
+old/
+trasholds/
+test/
+ball_cords_sorted_clear.json
+heat_map.png
+test_image.png
+
+# результаты отрисовки и отладочные видео
+develop/drawing/
+result_traks_and_videos/
