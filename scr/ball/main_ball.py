@@ -1,8 +1,10 @@
 import cv2
 import time
+import numpy as np
 
-from scr import config, tracker, detection, catboost_filter, feature_generation, tools
-
+from scr.ball import tracker, catboost_filter, detection, feature_generation
+from scr.court import court_detector
+from scr.shared import tools, config
 
 cap = cv2.VideoCapture(config.INPUT_VIDEO_PATH)
 total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -10,7 +12,11 @@ total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 BALL_MODEL = detection.load_model(config.BALL_MODEL_PATH)
 CAT_BOOST_FILTER = catboost_filter.cat_boost_load(config.CAT_BOOST_MODEL_PATH)
 
-input_name, output_name, _, _, _ = detection.model_params(BALL_MODEL)
+COURT_MODEL = court_detector.load_court_model(config.COURT_MODEL_PATH)
+
+input_ball_name, output_ball_name, _, _, _ = detection.model_params(BALL_MODEL)
+
+input_court_name, output_court_name, _, _ = court_detector.court_model_params(COURT_MODEL)
 
 frame_id_counter = 0
 track_id_counter = 0
@@ -18,6 +24,9 @@ track_id_counter = 0
 buffer_frame = []
 all_track = {}
 json_database = {}
+
+court_corners_array = []
+court_corners = None
 
 start_time = time.time()
 
@@ -31,6 +40,19 @@ while cap.isOpened():
         tools.progress_bar_drawing(frame_id_counter, total_frames, start_time)
 
     frame_id_counter += 1
+
+    if court_corners is None:
+        court_detection = court_detector.detect_court(frame, COURT_MODEL, input_court_name, output_court_name)
+
+        if court_detection is not None:
+            corners = court_detector.court_mask_corners(court_detection["mask"])
+
+            if corners is not None:
+                court_corners_array.append(corners)
+
+        if len(court_corners_array) >= config.BUFFER_COURT:
+            court_corners = tuple(np.median(np.array(court_corners_array), axis=0).astype(np.int32))
+
     preprocessed_frame = detection.preprocess_for_onnx(frame, config.INPUT_W, config.INPUT_H)
     buffer_frame.append(preprocessed_frame)
 
@@ -41,7 +63,7 @@ while cap.isOpened():
         INPUT = detection.input_tensor(buffer_frame)
         buffer_frame.pop(0)
 
-        OUTPUT = detection.inference(BALL_MODEL, input_name, output_name, INPUT)
+        OUTPUT = detection.inference(BALL_MODEL, input_ball_name, output_ball_name, INPUT)
         visible, decode_x, decode_y = detection.heatmap_decoder(OUTPUT, config.HEATMAP_TRASH)
 
         x, y = detection.original_dimension(decode_x, decode_y,
@@ -92,6 +114,9 @@ while cap.isOpened():
                 all_track[main_id]["confirmed"] = True
 
                 frame = tools.track_drawing(frame, all_track[main_id], main_id)
+
+    if court_corners is not None:
+        frame = tools.court_drawing(frame, court_corners)
 
     cv2.imshow("frame", frame)
     cv2.pollKey()

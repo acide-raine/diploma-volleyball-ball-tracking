@@ -2,7 +2,7 @@ import catboost
 from catboost import CatBoostClassifier
 import numpy as np
 
-from scr.MyTypes import CatBoostTrack
+from scr.shared.MyTypes import CatBoostTrack
 
 def cat_boost_load(model_path: str) -> catboost.core.CatBoostClassifier:
 

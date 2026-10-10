@@ -9,10 +9,12 @@ INPUT_H = 288
 HEATMAP_TRASH = 0.5
 SEQ_LEN = 9
 
+COURT_MODEL_PATH = "/model/court.onnx"
+
 Probability = 0.8
 
 #VIDEO_PARAMS
-INPUT_VIDEO_PATH = "test_input.mp4"
+INPUT_VIDEO_PATH = "short_test.mp4"
 OUTPUT_VIDEO_PATH = "test_output.mp4"
 
 cap = cv2.VideoCapture(INPUT_VIDEO_PATH)
@@ -32,3 +34,7 @@ LEN_MAX_TRACK = 15
 
 #JSON_PARAMS
 JSON_SAVE_TRACK_PATH = "json_name.json"
+
+#COURT_PARAMS
+
+BUFFER_COURT = 300

@@ -3,7 +3,7 @@ import numpy as np
 import time
 import sys
 
-from scr.MyTypes import Detection, Track
+from scr.shared.MyTypes import Detection, Track
 
 def track_drawing(frame: np.ndarray, track: Track, track_id: int) -> np.ndarray:
 
@@ -29,6 +29,42 @@ def detect_drawing(frame: np.ndarray, detect: Detection) -> np.ndarray:
     output = frame.copy()
 
     cv2.circle(output, (int(detect["x"]), int(detect["y"])), 10, (0, 0, 255), 2)
+
+    return output
+
+def court_drawing(frame: np.ndarray, corners: np.ndarray) -> np.ndarray:
+
+    '''
+    Функция отрисовки углов и контура площадки
+    '''
+
+    output = frame.copy()
+    corners = corners.astype(np.int32)
+
+    cv2.polylines(output, [corners], True, (0, 255, 0), 3)
+
+    for i, (x, y) in enumerate(corners):
+        cv2.circle(output, (int(x), int(y)), 8, (0, 0, 255), -1)
+        cv2.putText(output, str(i), (int(x) + 10, int(y) - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
+
+    return output
+
+def court_drawing(frame: np.ndarray, corners: np.ndarray) -> np.ndarray:
+
+    '''
+    Функция отрисовки углов и контура площадки
+    '''
+
+    output = frame.copy()
+    corners = np.array(corners, dtype=np.int32)
+
+    cv2.polylines(output, [corners], True, (0, 255, 0), 3)
+
+    for i, (x, y) in enumerate(corners):
+        cv2.circle(output, (int(x), int(y)), 8, (0, 0, 255), -1)
+        cv2.putText(output, str(i), (int(x) + 10, int(y) - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
 
     return output
 

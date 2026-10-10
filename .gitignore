@@ -78,3 +78,4 @@ test_image.png
 # результаты отрисовки и отладочные видео
 develop/drawing/
 result_traks_and_videos/
+model/court.onnx

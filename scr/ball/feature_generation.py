@@ -1,6 +1,6 @@
 import numpy as np
 
-from scr.MyTypes import Track, CatBoostTrack
+from scr.shared.MyTypes import Track, CatBoostTrack
 
 
 def track_length (track: Track) -> int:

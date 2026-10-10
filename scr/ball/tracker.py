@@ -1,8 +1,8 @@
 import numpy as np
 from typing import Tuple, Dict, List
 
-from scr.MyTypes import Track, Detection, ALLTracks
-from scr import config
+from scr.shared.MyTypes import Track, Detection, ALLTracks
+from scr.shared import config
 
 
 def track_size(last_frame: int, first_frame: int, fps :float = config.FPS) -> Tuple[float, float]:
